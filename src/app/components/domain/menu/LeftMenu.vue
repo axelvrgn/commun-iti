@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import UserProfileMenuItem from "./UserProfileMenuItem.vue";
 import RoomMenuItem from "./RoomMenuItem.vue";
-
+import RoomList from "@/app/components/domain/room/RoomList.vue";
 </script>
 
 <template>
@@ -13,7 +13,7 @@ import RoomMenuItem from "./RoomMenuItem.vue";
     <h3>Salons</h3>
 
     <div class="left-menu-middle">
-      <!-- Room List -->
+      <room-list />
     </div>
 
     <div class="left-menu-bottom">

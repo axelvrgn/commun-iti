@@ -56,6 +56,7 @@ async function onSubmit(form?: FormInstance) {
   try {
     await form.validate();
     userApi.register(registerModel);
+    router.push("/login");
   } catch (e) {
     return;
   }

@@ -28,12 +28,11 @@ async function onSubmit(form?: FormInstance) {
 
   try {
     await form.validate();
+    await authService.authenticate(loginModel);
+    router.push("/app");
   } catch (e) {
     return;
   }
-
-  await authService.authenticate(loginModel);
-  router.push("/app");
 }
 </script>
 <template>

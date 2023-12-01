@@ -20,7 +20,6 @@ const container = ref<HTMLDivElement | null>(null);
 
 // Element that have the scrollbar
 const root = ref<HTMLDivElement | null>(null);
-
 </script>
 
 <template>

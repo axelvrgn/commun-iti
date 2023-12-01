@@ -12,7 +12,9 @@ function selectRoom(room: Room) {
 
 <template>
   <nav class="room-list">
-    
+    <ul>
+      <li>test</li>
+    </ul>
   </nav>
 </template>
 
