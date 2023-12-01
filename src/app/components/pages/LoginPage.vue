@@ -17,12 +17,8 @@ const loginModel = reactive({
 const userNameRegex = /^(\w+)$/i;
 
 const loginFormRules = reactive<FormRules>({
-  username: [
-  
-  ],
-  password: [
-  
-  ]
+  username: [],
+  password: []
 });
 
 async function onSubmit(form?: FormInstance) {
@@ -32,10 +28,12 @@ async function onSubmit(form?: FormInstance) {
 
   try {
     await form.validate();
-
   } catch (e) {
     return;
   }
+
+  await authService.authenticate(loginModel);
+  router.push("/app");
 }
 </script>
 <template>
@@ -50,11 +48,15 @@ async function onSubmit(form?: FormInstance) {
           :rules="loginFormRules"
           label-position="top"
           class="login-form"
-          @submit.prevent=""
+          @submit.prevent="onSubmit($refs.form)"
         >
-          <el-form-item label="Pseudo" prop="username"> </el-form-item>
+          <el-form-item label="Pseudo" prop="username">
+            <el-input v-model="loginModel.username" type="text" />
+          </el-form-item>
 
-          <el-form-item label="Mot de passe" prop="password"> </el-form-item>
+          <el-form-item label="Mot de passe" prop="password">
+            <el-input v-model="loginModel.password" type="password" />
+          </el-form-item>
 
           <el-form-item>
             <div class="form-actions">

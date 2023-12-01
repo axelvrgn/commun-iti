@@ -21,21 +21,41 @@ const userNameRegex = /^(\w+)$/i;
 const registerFormRules = reactive<FormRules>({
   username: [
     {
+      trigger: "blur",
       required: true,
-      message: "Pseudo obligatoire"
+      message: "Pseudo obligatoire",
+      validator(rule, value, callback) {
+        if (userNameRegex.test(value)) {
+          callback();
+        } else {
+          callback(new Error("Le pseudo doit contenir"));
+        }
+      }
     }
   ],
-  password: [],
-  passwordConfirmation: []
+  password: [
+    {
+      required: true,
+      message: "Mot de passe obligatoire"
+    }
+  ],
+  passwordConfirmation: [
+    {
+      required: true,
+      message: "Confirmation du mot de passe obligatoire"
+    }
+  ]
 });
 
 async function onSubmit(form?: FormInstance) {
+  console.log(registerModel);
   if (!form) {
     return;
   }
 
   try {
     await form.validate();
+    userApi.register(registerModel);
   } catch (e) {
     return;
   }
@@ -59,9 +79,12 @@ async function onSubmit(form?: FormInstance) {
             <el-input v-model="registerModel.username" />
           </el-form-item>
 
-          <el-form-item label="Mot de passe" prop="password"> </el-form-item>
+          <el-form-item label="Mot de passe" prop="password">
+            <el-input v-model="registerModel.password" type="password" />
+          </el-form-item>
 
           <el-form-item label="Confirmez votre mot de passe" prop="passwordConfirmation">
+            <el-input v-model="registerModel.passwordConfirmation" type="password" />
           </el-form-item>
 
           <el-form-item>
