@@ -21,26 +21,25 @@ const userNameRegex = /^(\w+)$/i;
 const registerFormRules = reactive<FormRules>({
   username: [
     {
+      type: "string",
       trigger: "blur",
       required: true,
       message: "Pseudo obligatoire",
-      validator(rule, value, callback) {
-        if (userNameRegex.test(value)) {
-          callback();
-        } else {
-          callback(new Error("Le pseudo doit contenir"));
-        }
-      }
+      pattern: userNameRegex
     }
   ],
   password: [
     {
+      type: "string",
+      trigger: "blur",
       required: true,
       message: "Mot de passe obligatoire"
     }
   ],
   passwordConfirmation: [
     {
+      type: "string",
+      trigger: "blur",
       required: true,
       message: "Confirmation du mot de passe obligatoire"
     }
@@ -55,8 +54,16 @@ async function onSubmit(form?: FormInstance) {
 
   try {
     await form.validate();
-    userApi.register(registerModel);
-    router.push("/login");
+    if (registerModel.password === registerModel.passwordConfirmation) {
+      if (userApi.exists(registerModel.userName)) {
+        ElMessage.error("Attention ce pseudo est déjà utilisé");
+      } else {
+        userApi.register(registerModel);
+        router.push("/login");
+      }
+    } else {
+      ElMessage.error("Attention les mots de passe ne sont pas identiques");
+    }
   } catch (e) {
     return;
   }

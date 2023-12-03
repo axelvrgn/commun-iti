@@ -17,8 +17,23 @@ const loginModel = reactive({
 const userNameRegex = /^(\w+)$/i;
 
 const loginFormRules = reactive<FormRules>({
-  username: [],
-  password: []
+  username: [
+    {
+      type: "string",
+      trigger: "blur",
+      required: true,
+      message: "Psuedo obligatoire",
+      pattern: userNameRegex
+    }
+  ],
+  password: [
+    {
+      type: "string",
+      trigger: "blur",
+      required: true,
+      message: "Mot de passe obligatoire"
+    }
+  ]
 });
 
 async function onSubmit(form?: FormInstance) {
