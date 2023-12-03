@@ -43,7 +43,12 @@ async function onSubmit(form?: FormInstance) {
 
   try {
     await form.validate();
-    await authService.authenticate(loginModel);
+
+    await authService.authenticate(loginModel).then((res) => {
+      if (!res) {
+        ElMessage.error("Pseudo ou mot de passe incorrecte");
+      }
+    });
     router.push("/app");
   } catch (e) {
     return;

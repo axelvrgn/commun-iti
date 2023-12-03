@@ -10,9 +10,7 @@ import MessageInput from "@/app/components/domain/message/MessageInput.vue";
     </aside>
 
     <main>
-      <main>
-        <!-- TODO -->
-      </main>
+      <main></main>
 
       <footer>
         <message-input />
