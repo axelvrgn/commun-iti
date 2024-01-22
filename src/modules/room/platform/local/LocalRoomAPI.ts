@@ -76,6 +76,7 @@ export class LocalRoomAPI extends RoomAPI {
     }
 
     const data = this.storage.getValue();
+    console.log(data);
     return data.rooms.filter(
       (r) => !r.users[user.id] && r.name.toLocaleLowerCase().includes(name.toLocaleLowerCase())
     );
