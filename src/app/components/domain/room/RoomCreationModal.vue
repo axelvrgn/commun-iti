@@ -14,7 +14,12 @@ const loading = ref(false);
 const router = useRouter();
 
 const formRules = reactive<FormRules>({
-  
+  name: [
+    {
+      required: true,
+      message: "Nom de salon obligatoire"
+    }
+  ]
 });
 
 const { isVisible, hide, show, formModel } = useFormModal(
@@ -32,8 +37,14 @@ async function onSubmit(form?: FormInstance) {
   try {
     loading.value = true;
     await form.validate();
-
-    
+    if (roomApi.exists(form.$props.model.name)) {
+      ElMessage.error("Attention ce salon existe déjà");
+      return;
+    }
+    roomService.create({ name: formModel.name }).then(() => {
+      ElMessage({ type: "success", message: "Nouveau salon créé" });
+      hide();
+    });
   } catch (e) {
     return;
   } finally {
@@ -58,14 +69,14 @@ defineExpose({
       @submit.prevent="onSubmit(form!)"
     >
       <el-form-item label="Nom du salon" prop="name">
-     
+        <el-input v-model="formModel.name" type="text" />
       </el-form-item>
     </el-form>
 
     <template #footer>
       <div class="form-actions">
         <el-button native-type="reset" @click="hide()">Annuler</el-button>
-        
+
         <el-button type="primary" native-type="submit" :loading="loading" @click="onSubmit(form!)">
           Créer le salon
         </el-button>

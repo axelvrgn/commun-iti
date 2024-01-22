@@ -14,7 +14,7 @@ function selectRoom(room: Room) {
   <nav class="room-list">
     <ul>
       <li v-for="room in state.rooms" :key="room.id">
-        <a @click="selectRoom(room)">
+        <a class="room-list-item" @click="selectRoom(room)">
           {{ room.name }}
         </a>
       </li>
