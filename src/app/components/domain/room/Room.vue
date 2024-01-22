@@ -16,7 +16,7 @@ const state = useState(MessageStore);
 const authState = useState(AuthenticationStore);
 const store = useStore(MessageStore);
 
-const [messageSerivce, messageSocket, roomSocket] = useProvider([
+const [messageService, messageSocket, roomSocket] = useProvider([
   MessageService,
   MessageSocketService,
   RoomSocketService
@@ -61,7 +61,9 @@ async function fetchMore() {
   try {
     loading.value = true;
 
-    await messageService.fetchMore(props.room.id);
+    await messageService.fetchMore(props.room.id).then((res) => {
+      console.log(res);
+    });
   } catch (e) {
     console.error(e);
   } finally {

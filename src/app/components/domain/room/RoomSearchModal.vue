@@ -40,7 +40,7 @@ async function onSubmit(form?: FormInstance) {
     await form.validate();
     roomService.join(form.$props.model?.roomId).then(() => {
       localStorage.setItem("lastRoom", form.$props.model?.roomId);
-      router.push(`/app/${form.$props.model?.roomId}`);
+      router.push(`/app/room/${form.$props.model?.roomId}`);
       hide();
     });
 
