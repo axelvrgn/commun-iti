@@ -14,7 +14,7 @@ function selectRoom(room: Room) {
   <nav class="room-list">
     <ul>
       <li v-for="room in state.rooms" :key="room.id" @click="selectRoom(room)">
-        <router-link class="room-list-item" :to="{ path: `app/room/${room.id}` }">{{
+        <router-link class="room-list-item" :to="{ path: `/app/room/${room.id}` }">{{
           room.name
         }}</router-link>
       </li>

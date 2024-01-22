@@ -7,6 +7,7 @@ import { useProvider } from "@/app/platform";
 import { RoomAPI } from "@/modules/room/services/RoomAPI";
 import { RoomService } from "@/modules/room/services/RoomService";
 import { ElMessage } from "element-plus";
+import type { NewRoom } from "@/modules/room/models/NewRoom";
 
 const [roomApi, roomService] = useProvider([RoomAPI, RoomService]);
 const form = ref<FormInstance | null>(null);
@@ -17,7 +18,7 @@ const formRules = reactive<FormRules>({
   name: [
     {
       required: true,
-      message: "Nom de salon obligatoire"
+      message: "Champ obligatoire"
     }
   ]
 });
@@ -37,14 +38,20 @@ async function onSubmit(form?: FormInstance) {
   try {
     loading.value = true;
     await form.validate();
-    if (roomApi.exists(form.$props.model.name)) {
+    if (await roomApi.exists(form.$props.model?.name)) {
       ElMessage.error("Attention ce salon existe déjà");
       return;
     }
-    roomService.create({ name: formModel.name }).then(() => {
-      ElMessage({ type: "success", message: "Nouveau salon créé" });
-      hide();
-    });
+    const newRoom: NewRoom = { name: form.$props.model?.name };
+    roomService
+      .create(newRoom)
+      .then(() => {
+        ElMessage({ type: "success", message: "Nouveau salon créé" });
+        hide();
+      })
+      .catch(() => {
+        ElMessage.error("Erreur lors de la création du salon");
+      });
   } catch (e) {
     return;
   } finally {

@@ -38,6 +38,10 @@ async function onSubmit(form?: FormInstance) {
   try {
     loading.value = true;
     await form.validate();
+    roomService.join(form.$props.model?.roomId).then(() => {
+      router.push(form.$props.model?.roomId);
+      hide();
+    });
 
     hide();
   } catch (e) {
