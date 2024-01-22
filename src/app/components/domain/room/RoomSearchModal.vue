@@ -50,10 +50,12 @@ async function onSubmit(form?: FormInstance) {
 /**
  * Search rooms that contains the given text.
  * Store the result into foundRooms.
- * @param text 
+ * @param text
  */
 async function searchRooms(text: string) {
- 
+  roomApi.search(text).then((res) => {
+    foundRooms.value = res;
+  });
 }
 
 defineExpose({

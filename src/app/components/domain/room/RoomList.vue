@@ -13,10 +13,10 @@ function selectRoom(room: Room) {
 <template>
   <nav class="room-list">
     <ul>
-      <li v-for="room in state.rooms" :key="room.id">
-        <a class="room-list-item" @click="selectRoom(room)">
-          {{ room.name }}
-        </a>
+      <li v-for="room in state.rooms" :key="room.id" @click="selectRoom(room)">
+        <router-link class="room-list-item" :to="{ path: `app/room/${room.id}` }">{{
+          room.name
+        }}</router-link>
       </li>
     </ul>
   </nav>
