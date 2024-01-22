@@ -1,21 +1,27 @@
 <script lang="ts" setup>
-import RoomSearchModal from "@/app/components/domain/room/RoomSearchModal.vue";
+import { ref } from "vue";
 import { useProvider, useState } from "@/app/platform";
 import { RoomService } from "@/modules/room/services/RoomService";
 import { RoomStore } from "@/modules/room/store";
 import { Plus, Search } from "@element-plus/icons-vue";
 import { onMounted } from "vue";
 import { useFormModal } from "@/app/components/ui/modal";
+import RoomCreationModal from "@/app/components/domain/room/RoomCreationModal.vue";
 
 const state = useState(RoomStore);
 const [roomService] = useProvider([RoomService]);
 const { show } = useFormModal();
+const creationModalIsOpen = ref(false);
 
 onMounted(() => {
   if (state.rooms.length === 0) {
     roomService.fetchMore();
   }
 });
+
+const openCreationModal = () => {
+  creationModalIsOpen.value = true;
+};
 </script>
 
 <template>
@@ -25,7 +31,7 @@ onMounted(() => {
     <div class="room-menu-main">
       <div class="room-menu-name">{{ state.currentRoom?.name }}</div>
       <div class="room-menu-actions">
-        <el-button :icon="Plus" size="default" circle />
+        <el-button :icon="Plus" size="default" @click="show" circle />
         <el-button :icon="Search" size="default" @click="show" circle />
       </div>
     </div>

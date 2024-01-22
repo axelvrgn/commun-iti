@@ -13,7 +13,11 @@ function selectRoom(room: Room) {
 <template>
   <nav class="room-list">
     <ul>
-      <li>test</li>
+      <li v-for="room in state.rooms" :key="room.id">
+        <a @click="selectRoom(room)">
+          {{ room.name }}
+        </a>
+      </li>
     </ul>
   </nav>
 </template>
@@ -42,6 +46,7 @@ function selectRoom(room: Room) {
 
         &:hover {
           background-color: var.$color-light;
+          cursor: pointer;
         }
 
         &.router-link-active {
