@@ -47,7 +47,6 @@ const registerFormRules = reactive<FormRules>({
 });
 
 async function onSubmit(form?: FormInstance) {
-  console.log(registerModel);
   if (!form) {
     return;
   }
@@ -55,7 +54,7 @@ async function onSubmit(form?: FormInstance) {
   try {
     await form.validate();
     if (registerModel.password === registerModel.passwordConfirmation) {
-      if (userApi.exists(registerModel.userName)) {
+      if (await userApi.exists(registerModel.userName)) {
         ElMessage.error("Attention ce pseudo est déjà utilisé");
       } else {
         userApi.register(registerModel);

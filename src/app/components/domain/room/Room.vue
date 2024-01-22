@@ -35,7 +35,6 @@ const root = ref<HTMLDivElement | null>(null);
 
 subscribeToIncomingMessage();
 
-
 watch(
   () => props.room,
   async () => {
@@ -62,7 +61,7 @@ async function fetchMore() {
   try {
     loading.value = true;
 
-    // TODO fetch more messages
+    await messageService.fetchMore(props.room.id);
   } catch (e) {
     console.error(e);
   } finally {
@@ -74,6 +73,7 @@ async function fetchMore() {
 <template>
   <div class="room stretch-wh" ref="root">
     <div class="room-container" ref="container">
+      <Message v-for="mess in store.state.currentRoomMessages" :key="mess.id" :message="mess" />
       <div ref="top"></div>
     </div>
   </div>
