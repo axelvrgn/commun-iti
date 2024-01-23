@@ -61,19 +61,23 @@ function subscribeToIncomingMessage() {
 
 function subscribeToJoinRoom() {
   roomSocket.onRoomJoined((reaction) => {
-    ElNotification({
-      message: `${reaction.user.username} a rejoind le salon`,
-      type: "info"
-    });
+    if (reaction.user.id !== authState.loggedUser?.id) {
+      ElNotification({
+        message: `${reaction.user.username} a rejoint le salon`,
+        type: "info"
+      });
+    }
   });
 }
 
 function subscribeToQuitRoom() {
   roomSocket.onRoomLeft((reaction) => {
-    ElNotification({
-      message: `${reaction.user.username} a quitté le salon`,
-      type: "info"
-    });
+    if (reaction.user.id !== authState.loggedUser?.id) {
+      ElNotification({
+        message: `${reaction.user.username} a quitté le salon`,
+        type: "info"
+      });
+    }
   });
 }
 
