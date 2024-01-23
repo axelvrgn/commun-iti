@@ -7,11 +7,13 @@ import { AuthenticationStore } from "@/modules/authentication/store/Authenticati
 import { useProvider, useState } from "@/app/platform";
 import { AuthenticationService } from "@/modules/authentication/services";
 import EditUserProfileModal from "@/app/components/domain/user/EditUserProfileModal.vue";
+import RightMenu from "./RightMenu.vue";
 
 const state = useState(AuthenticationStore);
 const [authService] = useProvider([AuthenticationService]);
 
 const editUserProfileModalIsOpen = ref<InstanceType<typeof EditUserProfileModal>>();
+const rightMenuIsOpen = ref<InstanceType<typeof RightMenu>>();
 
 const openEdituserProfileModal = () => {
   editUserProfileModalIsOpen.value?.show({
@@ -19,6 +21,10 @@ const openEdituserProfileModal = () => {
     pictureUrl: state.loggedUser ? state.loggedUser.pictureUrl : "",
     picture: null
   });
+};
+
+const openRightMenu = () => {
+  rightMenuIsOpen.value?.show();
 };
 
 function logout() {
@@ -46,8 +52,9 @@ function logout() {
     <div class="user-profile-actions">
       <el-button :icon="SwitchButton" type="danger" size="default" @click="logout()" />
       <el-button :icon="Edit" size="default" @click="openEdituserProfileModal" />
-      <el-button :icon="Bell" size="default" @click="useRightMenuState()" />
+      <el-button :icon="Bell" size="default" @click="openRightMenu" />
       <edit-user-profile-modal ref="editUserProfileModalIsOpen" />
+      <right-menu ref="rightMenuIsOpen" />
     </div>
   </div>
 </template>

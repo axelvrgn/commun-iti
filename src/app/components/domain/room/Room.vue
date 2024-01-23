@@ -49,7 +49,11 @@ watch(
   }
 );
 
-function subscribeToIncomingMessage() {}
+function subscribeToIncomingMessage() {
+  messageSocket.onNewMessage(props.room.id, () =>
+    ElNotification({ message: "Vous avez reçu un nouveau message", type: "info" })
+  );
+}
 
 async function fetchMore() {
   if (loading.value) {
