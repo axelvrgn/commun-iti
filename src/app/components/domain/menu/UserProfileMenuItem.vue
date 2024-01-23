@@ -1,13 +1,25 @@
 <script lang="ts" setup>
+import { ref } from "vue";
 import BgImage from "@/app/components/ui/BgImage.vue";
 import { ElMessageBox } from "element-plus";
 import { SwitchButton, Edit, Bell } from "@element-plus/icons-vue";
 import { AuthenticationStore } from "@/modules/authentication/store/AuthenticationStore";
 import { useProvider, useState } from "@/app/platform";
 import { AuthenticationService } from "@/modules/authentication/services";
+import EditUserProfileModal from "@/app/components/domain/user/EditUserProfileModal.vue";
 
 const state = useState(AuthenticationStore);
 const [authService] = useProvider([AuthenticationService]);
+
+const editUserProfileModalIsOpen = ref<InstanceType<typeof EditUserProfileModal>>();
+
+const openEdituserProfileModal = () => {
+  editUserProfileModalIsOpen.value?.show({
+    username: state.loggedUser ? state.loggedUser.username : "",
+    pictureUrl: state.loggedUser ? state.loggedUser.pictureUrl : "",
+    picture: null
+  });
+};
 
 function logout() {
   ElMessageBox.confirm("Souhaitez-vous vous déconnecter de la session actuelle ?", "Warning", {
@@ -33,8 +45,9 @@ function logout() {
 
     <div class="user-profile-actions">
       <el-button :icon="SwitchButton" type="danger" size="default" @click="logout()" />
-      <el-button :icon="Edit" size="default" @click="useRightMenuState()" />
+      <el-button :icon="Edit" size="default" @click="openEdituserProfileModal" />
       <el-button :icon="Bell" size="default" @click="useRightMenuState()" />
+      <edit-user-profile-modal ref="editUserProfileModalIsOpen" />
     </div>
   </div>
 </template>

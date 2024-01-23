@@ -3,11 +3,13 @@ import BgImage from "@/app/components/ui/BgImage.vue";
 import { ref, reactive } from "vue";
 import { Plus, Edit } from "@element-plus/icons-vue";
 import { useFormModal } from "@/app/components/ui/modal";
-import type { FormInstance, FormRules, UploadFile } from "element-plus";
+import { ElMessage, type FormInstance, type FormRules, type UploadFile } from "element-plus";
 import { useProvider } from "@/app/platform";
 import { UserAPI } from "@/modules/user/services";
 import { AuthenticationService } from "@/modules/authentication/services";
 import { MessageService } from "@/modules/message/services/MessageService";
+import type { User } from "@/modules/user/models/domain/User";
+import type { UpdateUserModel } from "@/modules/user/models";
 
 const [userApi, authService, messageService] = useProvider([
   UserAPI,
@@ -30,21 +32,7 @@ const formRules = reactive<FormRules>({
 });
 
 const isLoading = ref(false);
-const {
-  /**
-   * Hide the modal
-   * */ 
-  hide, 
-  /**
-   * Open the modal
-   */
-  show, 
-  /**
-   * Form data
-   */
-  formModel,
-  isVisible, 
-} = useFormModal(
+const { hide, show, formModel, isVisible } = useFormModal(
   {
     username: "",
     pictureUrl: "",
@@ -80,10 +68,20 @@ async function onSubmit(form?: FormInstance) {
 
   try {
     isLoading.value = true;
+    const userUpdated: UpdateUserModel = {
+      username: form.$props.model?.username,
+      picture: form.$props.model?.picture
+    };
 
-    // TODO
-        
-    hide();
+    userApi
+      .update(userUpdated)
+      .then(() => {
+        ElMessage({ type: "success", message: "Profil modifé" });
+        hide();
+      })
+      .catch(() => {
+        ElMessage.error("Erreur lors de la modification");
+      });
   } catch (e) {
     return;
   } finally {
