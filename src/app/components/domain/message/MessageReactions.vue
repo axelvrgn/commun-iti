@@ -36,7 +36,17 @@ const messageReactions = computed<MessageReaction[]>(() => {
 </script>
 
 <template>
-  <div class="message-reactions"></div>
+  <div class="message-reactions">
+    <button
+      v-for="reaction in messageReactions"
+      :key="reaction.emoji"
+      class="message-reaction"
+      :class="{ 'user-reacted': reaction.userReacted }"
+    >
+      <div class="message-reaction-emoji">{{ reaction.emoji }}</div>
+      <div class="message-reaction-count">{{ reaction.userReactions.length }}</div>
+    </button>
+  </div>
 </template>
 
 <style scoped lang="scss">

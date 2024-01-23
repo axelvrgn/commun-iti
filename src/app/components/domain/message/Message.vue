@@ -14,9 +14,13 @@ const props = defineProps<{
   message: Message;
 }>();
 
-const [messageSerivce] = useProvider([MessageService]);
+const [messageService] = useProvider([MessageService]);
 
-function onEmojiPicked(emoji: string) {}
+function onEmojiPicked(emoji: string) {
+  if (emoji) {
+    messageService.reactTo(emoji, props.message);
+  }
+}
 </script>
 
 <template>
@@ -38,6 +42,7 @@ function onEmojiPicked(emoji: string) {}
         </small>
         <RichText :text="props.message.text" />
       </div>
+      <message-reactions :reactions="message.reactions" />
     </div>
   </div>
 </template>

@@ -15,7 +15,7 @@ export class MessageService {
   @inject(MessageDataParser) private readonly parser!: MessageDataParser;
   @inject(AuthenticationStore) private readonly authStore!: AuthenticationStore;
   @inject(RoomStore) private readonly roomStore!: RoomStore;
-  
+
   async sendMessage(newMessage: NewMessage) {
     const messageData = await this.api.sendMessage(newMessage);
     const message = this.parser.parse(messageData);

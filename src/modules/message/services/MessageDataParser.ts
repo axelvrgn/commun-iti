@@ -1,9 +1,5 @@
 import { inject, injectable } from "inversify";
-import type {
-  Message,
-  MessageAttachement,
-  RichText,
-} from "../models/domain";
+import type { Message, MessageAttachement, RichText } from "../models/domain";
 import type { MessageData } from "../models/MessageData";
 import { HtmlOgParser } from "@/modules/infrastructure/HtmlOgParser";
 
@@ -28,7 +24,10 @@ export class MessageDataParser {
   }
 
   private replaceNewLines(text: RichText) {
-    return text; // TODO
+    text.tokens.forEach((token) => {
+      token.value.replace("\n", "</br>");
+    });
+    return text;
   }
 
   extractAttachements(text: RichText): MessageAttachement[] {

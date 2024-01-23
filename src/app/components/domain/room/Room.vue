@@ -49,9 +49,7 @@ watch(
   }
 );
 
-function subscribeToIncomingMessage() {
-  // TODO
-}
+function subscribeToIncomingMessage() {}
 
 async function fetchMore() {
   if (loading.value) {
@@ -61,9 +59,7 @@ async function fetchMore() {
   try {
     loading.value = true;
 
-    await messageService.fetchMore(props.room.id).then((res) => {
-      console.log(res);
-    });
+    await messageService.fetchMore(props.room.id);
   } catch (e) {
     console.error(e);
   } finally {
