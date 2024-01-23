@@ -25,8 +25,6 @@ function onEmojiPicked(emoji: string) {
 function removeEmoji(emoji: EmojiReaction) {
   messageService.removeReaction(emoji.emoji, props.message);
 }
-
-console.log(props.message);
 </script>
 
 <template>

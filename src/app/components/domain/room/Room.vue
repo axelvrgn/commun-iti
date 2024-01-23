@@ -34,6 +34,9 @@ const container = ref<HTMLDivElement | null>(null);
 const root = ref<HTMLDivElement | null>(null);
 
 subscribeToIncomingMessage();
+subscribeToJoinRoom();
+subscribeToQuitRoom();
+subscribeToIncomingReaction();
 
 watch(
   () => props.room,
@@ -46,13 +49,43 @@ watch(
     await fetchMore();
 
     subscribeToIncomingMessage();
+    subscribeToJoinRoom();
+    subscribeToQuitRoom();
+    subscribeToIncomingReaction();
   }
 );
 
 function subscribeToIncomingMessage() {
-  messageSocket.onNewMessage(props.room.id, () =>
-    ElNotification({ message: "Vous avez reçu un nouveau message", type: "info" })
-  );
+  messageSocket.onNewMessage(props.room.id, () => {});
+}
+
+function subscribeToJoinRoom() {
+  roomSocket.onRoomJoined((reaction) => {
+    ElNotification({
+      message: `${reaction.user.username} a rejoind le salon`,
+      type: "info"
+    });
+  });
+}
+
+function subscribeToQuitRoom() {
+  roomSocket.onRoomLeft((reaction) => {
+    ElNotification({
+      message: `${reaction.user.username} a quitté le salon`,
+      type: "info"
+    });
+  });
+}
+
+function subscribeToIncomingReaction() {
+  messageSocket.onNewReaction((reaction) => {
+    if (reaction.user.id !== authState.loggedUser?.id) {
+      ElNotification({
+        message: `${reaction.user.username} a réagi à votre message ${reaction.emoji}`,
+        type: "info"
+      });
+    }
+  });
 }
 
 async function fetchMore() {
