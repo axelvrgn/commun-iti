@@ -62,6 +62,15 @@ function subscribeToIncomingMessage() {
 function subscribeToJoinRoom() {
   roomSocket.onRoomJoined((reaction) => {
     if (reaction.user.id !== authState.loggedUser?.id) {
+      const oldNotifs = localStorage.getItem("iti.notifications");
+      const newNotif = {
+        message: `${reaction.user.username} a rejoint le salon`,
+        type: "info"
+      };
+      localStorage.setItem(
+        "iti.notifications",
+        JSON.stringify(newNotif) + JSON.stringify(oldNotifs)
+      );
       ElNotification({
         message: `${reaction.user.username} a rejoint le salon`,
         type: "info"
@@ -73,6 +82,15 @@ function subscribeToJoinRoom() {
 function subscribeToQuitRoom() {
   roomSocket.onRoomLeft((reaction) => {
     if (reaction.user.id !== authState.loggedUser?.id) {
+      const oldNotifs = localStorage.getItem("iti.notifications");
+      const newNotif = {
+        message: `${reaction.user.username} a quitté le salon`,
+        type: "info"
+      };
+      localStorage.setItem(
+        "iti.notifications",
+        JSON.stringify(newNotif) + JSON.stringify(oldNotifs)
+      );
       ElNotification({
         message: `${reaction.user.username} a quitté le salon`,
         type: "info"
@@ -84,6 +102,17 @@ function subscribeToQuitRoom() {
 function subscribeToIncomingReaction() {
   messageSocket.onNewReaction((reaction) => {
     if (reaction.user.id !== authState.loggedUser?.id) {
+      const notifs = JSON.parse(localStorage.getItem("iti.notifications") || "{}");
+      const newNotif = {
+        message: `${reaction.user.username} a réagi à votre message ${reaction.emoji}`,
+        type: "info"
+      };
+      let concatNotifs = JSON.stringify([newNotif]);
+      if (notifs) {
+        concatNotifs = JSON.stringify([newNotif, notifs]);
+      }
+
+      localStorage.setItem("iti.notifications", concatNotifs);
       ElNotification({
         message: `${reaction.user.username} a réagi à votre message ${reaction.emoji}`,
         type: "info"
