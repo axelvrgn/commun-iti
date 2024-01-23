@@ -15,7 +15,6 @@ const props = defineProps<{
 const emit = defineEmits<{
   reactionClick: [EmojiReaction];
 }>();
-
 const [authStore] = useProvider([AuthenticationStore]);
 
 /**
@@ -42,6 +41,7 @@ const messageReactions = computed<MessageReaction[]>(() => {
       :key="reaction.emoji"
       class="message-reaction"
       :class="{ 'user-reacted': reaction.userReacted }"
+      @click="$emit('reactionClick', reaction)"
     >
       <div class="message-reaction-emoji">{{ reaction.emoji }}</div>
       <div class="message-reaction-count">{{ reaction.userReactions.length }}</div>

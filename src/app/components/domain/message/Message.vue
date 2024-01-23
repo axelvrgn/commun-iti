@@ -8,7 +8,7 @@ import { useProvider } from "@/app/platform";
 import { MessageService } from "@/modules/message/services/MessageService";
 import { DateTime } from "luxon";
 import MessageReactions, { type MessageReaction } from "./MessageReactions.vue";
-import { type Message } from "@/modules/message/models/domain";
+import { type EmojiReaction, type Message } from "@/modules/message/models/domain";
 
 const props = defineProps<{
   message: Message;
@@ -20,6 +20,10 @@ function onEmojiPicked(emoji: string) {
   if (emoji) {
     messageService.reactTo(emoji, props.message);
   }
+}
+
+function removeEmoji(emoji: EmojiReaction) {
+  messageService.removeReaction(emoji.emoji, props.message);
 }
 </script>
 
@@ -42,7 +46,7 @@ function onEmojiPicked(emoji: string) {
         </small>
         <RichText :text="props.message.text" />
       </div>
-      <message-reactions :reactions="message.reactions" />
+      <message-reactions :reactions="props.message.reactions" @reactionClick="removeEmoji" />
     </div>
   </div>
 </template>
