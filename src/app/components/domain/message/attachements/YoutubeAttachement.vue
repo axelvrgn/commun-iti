@@ -4,12 +4,12 @@ import type { YoutubeMessageAttachement } from "@/modules/message/models/domain"
 const props = defineProps<{
   attachement: YoutubeMessageAttachement;
 }>();
-
 </script>
 <template>
   <div class="youtube-attachement light-card">
-    <div class="youtube-attachement-domain"><!-- TODO --></div>
-        <!-- TODO -->
+    <div class="youtube-attachement-domain">youtube.com</div>
+    <iframe :src="`${attachement.domain}${attachement.videoId}`" frameborder="0" allowfullscreen>
+    </iframe>
   </div>
 </template>
 <style lang="scss" scoped>

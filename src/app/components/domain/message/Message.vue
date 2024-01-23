@@ -46,6 +46,10 @@ function removeEmoji(emoji: EmojiReaction) {
         </small>
         <RichText :text="props.message.text" />
       </div>
+      <MessageAttachements
+        v-show="props.message.attachements.length > 0"
+        :attachements="props.message.attachements"
+      />
       <message-reactions :reactions="props.message.reactions" @reactionClick="removeEmoji" />
     </div>
   </div>
