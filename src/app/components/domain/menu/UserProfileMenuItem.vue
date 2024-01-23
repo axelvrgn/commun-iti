@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import BgImage from "@/app/components/ui/BgImage.vue";
 import { ElMessageBox } from "element-plus";
-import { SwitchButton } from "@element-plus/icons-vue";
+import { SwitchButton, Edit, Bell } from "@element-plus/icons-vue";
 import { AuthenticationStore } from "@/modules/authentication/store/AuthenticationStore";
 import { useProvider, useState } from "@/app/platform";
 import { AuthenticationService } from "@/modules/authentication/services";
@@ -33,7 +33,8 @@ function logout() {
 
     <div class="user-profile-actions">
       <el-button :icon="SwitchButton" type="danger" size="default" @click="logout()" />
-      
+      <el-button :icon="Edit" size="default" @click="useRightMenuState()" />
+      <el-button :icon="Bell" size="default" @click="useRightMenuState()" />
     </div>
   </div>
 </template>
