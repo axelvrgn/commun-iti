@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
+    "build": "run-p \"build-only {@}\" --",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
     "doc": "http-server ./docs"
@@ -45,6 +46,7 @@
     "vite": "^4.4.11",
     "vitepress": "1.0.0-rc.29",
     "vue-tsc": "^1.8.19",
-    "@types/socket.io-client": "~3.0.0"
+    "@types/socket.io-client": "~3.0.0",
+    "http-server":"~14.1.1" 
   }
 }
