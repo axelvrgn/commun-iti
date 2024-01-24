@@ -56,7 +56,9 @@ watch(
 );
 
 function subscribeToIncomingMessage() {
-  messageSocket.onNewMessage(props.room.id, () => {});
+  messageSocket.onNewMessage(props.room.id, () => {
+    messageService.reloadMessages();
+  });
 }
 
 function subscribeToJoinRoom() {
