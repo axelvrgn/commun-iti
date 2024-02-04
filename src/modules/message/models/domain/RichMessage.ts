@@ -10,7 +10,7 @@ export type MessageAttachement =
   | ImageMessageAttachement
   | AudioMessageAttachement
   | VideoMessageAttachement
-  ;
+  | MentionAttachement;
 
 export interface WebsiteMessageAttachement {
   type: "website";
@@ -35,5 +35,10 @@ export interface VideoMessageAttachement {
 
 export interface AudioMessageAttachement {
   type: "audio";
+  src: string;
+}
+
+export interface MentionAttachement {
+  type: "mention";
   src: string;
 }

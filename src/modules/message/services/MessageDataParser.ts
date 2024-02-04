@@ -36,7 +36,7 @@ export class MessageDataParser {
     const audioRegex = /http[s]?:\/\/.+\.(mp3|ogg|wav)/im;
     const youtubeRegex =
       /(http[s]?:\/\/)?www\.(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\/?\?(?:\S*?&?v=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/im;
-    console.log();
+    const mentionRegex = /@\w*/g;
     const attachements: MessageAttachement[] = [];
     text.tokens.forEach((token) => {
       if (token.type === "link") {
@@ -52,6 +52,8 @@ export class MessageDataParser {
             videoId: token.value.split("youtube.com/")[1],
             domain: "https://www.youtube.com/embed/"
           });
+        } else if (mentionRegex.test(token.value)) {
+          attachements.push({ type: "mention", src: token.value });
         } else {
           attachements.push({ type: "website", url: token.value });
         }
