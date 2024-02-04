@@ -138,6 +138,19 @@ async function fetchMore() {
     loading.value = false;
   }
 }
+
+const { stop } = useIntersectionObserver(top, ([{ isIntersecting }]) => {
+  if (isIntersecting) {
+    if (
+      state.messagesPagination.page + 1 <
+      state.messagesPagination.total / state.messagesPagination.perPage
+    ) {
+      fetchMore();
+    } else {
+      stop();
+    }
+  }
+});
 </script>
 
 <template>
